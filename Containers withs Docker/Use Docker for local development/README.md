@@ -27,6 +27,21 @@
       -e MONGO_INITDB_ROOT_USERNAME=admin \
       -e MONGO_INITDB_ROOT_PASSWORD=password \
       mongo```
-6. s
-7. s 
+    - Mongo Express: ```docker run -d \
+      -p 8081:8081 \
+      --net mongo-network \
+      --name mongo-express \
+      -e ME_CONFIG_MONGODB_SERVER=mongo-db \
+      -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin \
+      -e ME_CONFIG_MONGODB_ADMINPASSWORD=password \
+      mongo-express```
+    - Mongo Express uses MongoDB as server and use the credentials defined for MongoDB
+5. To connect to Mongo Express
+    - Go to browser and type ```localhost:8081```
+    - Default credentials
+    - Login: admin and password: pass
+6. Create a new DB using Mongo Express UI
+    - Create DB to be used with Nodejs
+8. 
+9. s 
 
