@@ -7,7 +7,7 @@
 
 - Pre-requisites:
   - Have Docker on local computer
-  - s 
+  - Have a application running (in this case the server.js)
 <br />
  
 - Steps:
@@ -41,7 +41,13 @@
     - Default credentials
     - Login: admin and password: pass
 6. Create a new DB using Mongo Express UI
-    - Create DB to be used with Nodejs
-8. 
-9. s 
+    - Create DB to be used with Nodejs (user-account)
+    - Create a collection inside new user created (users)
+7. Run Application
+    - Open cmd in the directory where is the application file
+    - ```npm install``` - to install dependencies
+    - ```node server.js``` - to start the application
+    - Go to browser and type localhost:3000
+8. Make changes in the Application
+    - The changes will be updated in the Mongo Express UI 
 
