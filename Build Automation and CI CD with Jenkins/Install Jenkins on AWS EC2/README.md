@@ -18,8 +18,7 @@
     - Always do first: ```sudo apt update```
     - Then ```sudo apt install docker.io```
 4. Pull Jenkins Image from Docker Hub and run Container
-    - Run commmand ```sudo docker run -p 8080:8080 -p 50000:50000 -d \
-      -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts```
+    - Run commmand ```sudo docker run -p 8080:8080 -p 50000:50000 -d -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts```
     - Verify if Container is running ```sudo docker ps```
 5. Check if Jenkins is running on Browser
     - Get EC2 instance IPv4 address
