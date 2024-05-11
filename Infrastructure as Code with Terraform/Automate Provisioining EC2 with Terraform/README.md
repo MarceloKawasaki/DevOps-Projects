@@ -7,6 +7,8 @@
     - Check it the [.gitignore](https://github.com/MarceloKawasaki/DevOps-Projects/blob/main/.gitignore) file in the main DEVOPS-PROJECTS folder
     - If you pushed before doing everything and got the error, just delete the Local Repository and connect a new one (is faster than trying to fix)
     - [GitHub post about the issue](https://github.com/hashicorp/terraform-guides/issues/92)
+  - Make sure to have the local folder initiliazed in Terraform
+    - ```terraform init```
 <br />
  
 - Steps:
