@@ -8,6 +8,7 @@ variable vpc_cidr_block {}
 variable subnet_cidr_block {}
 variable avail_zone {}
 variable env_prefix {}
+variable my_ip {}
 
 #Creating the AWS VPC
 resource "aws_vpc" "myapp-vpc" {
@@ -47,3 +48,47 @@ resource "aws_internet_gateway" "myapp-igw" {
         Name: "${var.env_prefix}-igw"
     }
 }
+
+#Creating Route Table Subnet Association
+resource "aws_route_table_association" "a-rtb-subnet" {
+    subnet_id = aws_subnet.myapp-subnet-1.id
+    route_table_id = aws_route_table.myapp-route-table.id
+}
+
+
+#Creating Security Group
+resource "aws_security_group" "myapp-sg" {
+    name = "myapp-sg"
+    vpc_id = aws_vpc.myapp-vpc.id
+
+    #Define rules for incoming traffic (FireWall) for port 22
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "TCP"
+        cidr_blocks = [var.my_ip]
+    }
+
+    #Define rules for incoming traffic (FireWall) for port 8080
+    ingress {
+        from_port = 8080
+        to_port = 8080
+        protocol = "TCP"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    #Define rules for outgoing traffic (FireWall) for all
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+        prefix_list_ids = []
+    }
+
+    tags = {
+        Name: "${var.env_prefix}-sg"
+    }
+
+}
+
