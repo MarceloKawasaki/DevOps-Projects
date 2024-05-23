@@ -9,6 +9,8 @@ variable subnet_cidr_block {}
 variable avail_zone {}
 variable env_prefix {}
 variable my_ip {}
+variable instance_type {}
+variable public_key_location {}
 
 #Creating the AWS VPC
 resource "aws_vpc" "myapp-vpc" {
@@ -61,7 +63,7 @@ resource "aws_security_group" "myapp-sg" {
     name = "myapp-sg"
     vpc_id = aws_vpc.myapp-vpc.id
 
-    #Define rules for incoming traffic (FireWall) for port 22
+    #Define inbound rules for incoming traffic (FireWall) for port 22
     ingress {
         from_port = 22
         to_port = 22
@@ -69,7 +71,7 @@ resource "aws_security_group" "myapp-sg" {
         cidr_blocks = [var.my_ip]
     }
 
-    #Define rules for incoming traffic (FireWall) for port 8080
+    #Define inbound rules for incoming traffic (FireWall) for port 8080
     ingress {
         from_port = 8080
         to_port = 8080
@@ -77,7 +79,7 @@ resource "aws_security_group" "myapp-sg" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
-    #Define rules for outgoing traffic (FireWall) for all
+    #Define outbound rules for outgoing traffic (FireWall) for all
     egress {
         from_port = 0
         to_port = 0
@@ -89,6 +91,45 @@ resource "aws_security_group" "myapp-sg" {
     tags = {
         Name: "${var.env_prefix}-sg"
     }
-
 }
 
+
+#Fetching data from AWS to retrieve updated AMIs
+data "aws_ami" "latest-amazon-linux-image" {
+    most_recent = true
+    owners = ["amazon"]
+    filter {
+        name = "name"
+        values = ["amzn2-ami-kernel-*-x86_64-gp2"]
+    }
+    
+    filter {
+        name = "virtualization-type"
+        values = ["hvm"]
+    }
+}
+
+
+#Automate Key Pair Creation
+resource "aws_key_pair" "ssh-key" {
+    key_name = "server-key"
+    public_key = file(var.public_key_location)
+}
+
+#Creating EC2 
+resource "aws_instance" "myapp-server" {
+    ami = data.aws_ami.latest-amazon-linux-image.id
+    instance_type = var.instance_type
+
+    subnet_id = aws_subnet.myapp-subnet-1.id
+    vpc_security_group_ids = [aws_security_group.myapp-sg.id]
+    availability_zone = var.avail_zone
+
+    #Associate public IP
+    associate_public_ip_address = true
+    key_name = aws_key_pair.ssh-key.key_name
+
+    tags = {
+        Name: "${var.env_prefix}-server"
+    } 
+}
