@@ -20,7 +20,7 @@
 
 2 - Once inside the Docker running Ubuntu, update apt
 
-    - '''apt update && apt update'''
+    - '''apt update && apt upgrade'''
 
 3 - Install all necessary tools
 
