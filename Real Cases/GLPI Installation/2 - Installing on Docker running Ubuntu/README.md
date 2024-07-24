@@ -1,6 +1,6 @@
 # Installing on Docker running Ubuntu
 
-[Based on official Walktrough](...)
+[Based on official Walktrough](https://faq.teclib.com/03_knowledgebase/procedures/install_glpi/#create-a-user-and-database-dedicated-to-glpi)
 
 
 *Pre-requisites
@@ -24,8 +24,8 @@
 
 3 - Install all necessary tools
 
-    - '''apt install /
-         apt install mariadn
+    - '''apt install -y apache2 php php-{apcu,cli,common,curl,gd,imap,ldap,mysql,xmlrpc,xml,mbstring,bcmath,intl,zip,redis,bz2} libapache2-mod-php php-soap php-cas
+a       pt install -y mariadb-server
          apt install vim
          apt install wget'''
 
